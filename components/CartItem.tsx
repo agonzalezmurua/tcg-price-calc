@@ -29,7 +29,7 @@ export const CartItem = observer(({ card }: { card: PokemonCard }) => {
             {card.tcgplayer?.prices ? (
               Object.entries(card.tcgplayer?.prices ?? {}).map(
                 ([name, price]) => (
-                  <li className="space-x-2">
+                  <li key={name} className="space-x-2">
                     <button
                       className="border border-white rounded-lg w-full md:w-fit p-2 aspect-square"
                       onClick={() => {

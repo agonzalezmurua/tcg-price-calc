@@ -24,7 +24,7 @@ export function Search() {
         ref={input}
         defaultValue={searchParams.get("q") ?? ""}
         type="text"
-        className="bg-transparent border border-white rounded-lg px-2 py-1"
+        className="bg-transparent border border-white rounded-lg px-2 py-1 flex-grow"
       />
       <button
         type="submit"

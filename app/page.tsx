@@ -1,6 +1,6 @@
 import pokemonsdk from "~/services/api/pokemon";
 import { CartContextProvider } from "~/services/context/CartContext";
-import { CartItem } from "../components/CartItem";
+import { CardItem } from "../components/CardItem";
 import { Cart } from "~/components/Cart";
 
 export default async function Search({
@@ -12,6 +12,7 @@ export default async function Search({
   const result = await pokemonsdk.card.where({
     q: q,
     orderBy: "-set.releaseDate",
+    pageSize: 10,
   });
 
   return (
@@ -19,7 +20,7 @@ export default async function Search({
       <CartContextProvider>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {result.data.map((card) => (
-            <CartItem key={card.id} card={card} />
+            <CardItem key={card.id} card={card} />
           ))}
         </ul>
         <Cart />

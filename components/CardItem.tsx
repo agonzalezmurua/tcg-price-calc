@@ -7,7 +7,7 @@ import { FiPlus } from "react-icons/fi";
 import { Card } from "~/components/Card";
 import { CartContext } from "~/services/context/CartContext";
 
-export const CartItem = observer(({ card }: { card: PokemonCard }) => {
+export const CardItem = observer(({ card }: { card: PokemonCard }) => {
   const cart = useContext(CartContext);
   return (
     <li className="flex gap-4">
@@ -24,14 +24,14 @@ export const CartItem = observer(({ card }: { card: PokemonCard }) => {
           <label htmlFor={`${card.id}-prices`}>Prices</label>
           <ul
             id={`${card.id}-prices`}
-            className="list-disc list-inside flex flex-col gap-2"
+            className="list-inside flex flex-col gap-2"
           >
             {card.tcgplayer?.prices ? (
               Object.entries(card.tcgplayer?.prices ?? {}).map(
                 ([name, price]) => (
-                  <li key={name} className="space-x-2">
+                  <li key={name} className="flex items-center gap-2">
                     <button
-                      className="border border-white rounded-lg w-full md:w-fit p-2 aspect-square"
+                      className="border border-white rounded-lg p-2 aspect-square"
                       onClick={() => {
                         cart.add(card, name as PokemonCardVariant);
                       }}

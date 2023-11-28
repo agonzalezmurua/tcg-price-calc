@@ -12,7 +12,6 @@ export default async function Search({
   const result = await pokemonsdk.card.where({
     q: q,
     orderBy: "-set.releaseDate",
-    pageSize: 10,
   });
 
   return (

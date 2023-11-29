@@ -67,7 +67,7 @@ declare module "pokemontcgsdk" {
     directLow: number;
   };
 
-  type WhereResultOf<T> = {
+  export type WhereResultOf<T> = {
     data: T[];
     page: number;
     pageSize: number;
@@ -107,7 +107,8 @@ declare module "pokemontcgsdk" {
   type Query = {
     q: string;
     pageSize?: number;
-    orderBy: string;
+    orderBy?: string;
+    page?: number;
   };
 
   class PokemonTCGSDK {

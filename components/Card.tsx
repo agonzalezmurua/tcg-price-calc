@@ -11,8 +11,8 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={classNames("relative aspect-[0.718/1]", className)}>
-      <Image src={image} fill alt={name} className="object-cover" />
+    <div className={classNames("relative aspect-[245/342]", className)}>
+      <Image src={image} fill alt={name} className="object-contain" />
     </div>
   );
 }

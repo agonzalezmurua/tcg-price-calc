@@ -1,28 +1,37 @@
+import { Cart } from "~/components/Cart";
+import { PaginationControls } from "~/components/PaginationControls";
+import { SearchFilters } from "~/components/SearchFilters";
+import { SearchResult } from "~/components/SearchResult";
 import pokemonsdk from "~/services/api/pokemon";
 import { CartContextProvider } from "~/services/context/CartContext";
-import { CardItem } from "../components/CardItem";
-import { Cart } from "~/components/Cart";
 
-export default async function Search({
-  searchParams,
-}: {
-  searchParams: { q: string };
-}) {
-  const { q } = searchParams;
-  const result = await pokemonsdk.card.where({
-    q: q,
+type SearchPageProps = {
+  searchParams: { name: string; page: number };
+};
+
+export default async function SearchPage({ searchParams }: SearchPageProps) {
+  const {
+    data,
+    totalCount,
+    pageSize,
+    page: currentPage,
+  } = await pokemonsdk.card.where({
+    q: `name:"${searchParams.name}"`,
     orderBy: "-set.releaseDate",
     pageSize: 10,
+    page: searchParams.page,
   });
 
   return (
-    <section className="relative">
+    <section className="relative space-y-4">
       <CartContextProvider>
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {result.data.map((card) => (
-            <CardItem key={card.id} card={card} />
-          ))}
-        </ul>
+        <SearchFilters />
+        <PaginationControls
+          className="sticky top-0 z-10"
+          currentPage={currentPage}
+          totalPages={Math.round(totalCount / pageSize)}
+        />
+        <SearchResult cards={data} />
         <Cart />
       </CartContextProvider>
     </section>

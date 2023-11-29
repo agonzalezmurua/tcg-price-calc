@@ -17,11 +17,11 @@ export function useSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = useMemo(() => {
-    const page = searchParams.get("page");
+    const page = searchParams.get("page") ?? "1";
 
     return {
       name: searchParams.get("name") ?? "",
-      page: page ? 1 : Number(page),
+      page: Number(page),
     };
   }, [searchParams]);
 

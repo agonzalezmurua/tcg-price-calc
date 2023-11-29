@@ -10,6 +10,7 @@ import { Button, Label, Tooltip } from "flowbite-react";
 
 export const SearchResultItem = observer(({ card }: { card: PokemonCard }) => {
   const cart = useContext(CartContext);
+
   return (
     <li className="flex gap-4 flex-col sm:flex-row">
       <Card name={card.name} image={card.images.small} className="h-80" />

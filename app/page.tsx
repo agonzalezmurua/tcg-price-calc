@@ -1,5 +1,3 @@
-import { Label, Select, Sidebar } from "flowbite-react";
-import { PokemonTCGCard, WhereResultOf } from "pokemontcgsdk";
 import { stringify } from "qs";
 import { Cart } from "~/components/Cart";
 import { PaginationControls } from "~/components/PaginationControls";
@@ -32,9 +30,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             q.push(`set.name:"${searchParams.set}"`);
           }
 
-          if (searchParams.sortBy) {
-          }
-
           return q.join(" ");
         },
         get orderBy() {
@@ -58,23 +53,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         revalidate: 60 * 15,
       },
     }
-  )
-    .then((r) => r.json())
-    .then((result: WhereResultOf<PokemonTCGCard>) => {
-      const getHighestPriceOf = (card: PokemonTCGCard) => {
-        return Object.values(card.tcgplayer.prices).sort(
-          (a, b) => a.market - b.market
-        )[0].market;
-      };
-
-      if (searchParams.sortBy) {
-        result.data = result.data.toSorted(
-          (a, b) => -getHighestPriceOf(a) - -getHighestPriceOf(b)
-        );
-      }
-
-      return result;
-    });
+  ).then((r) => r.json());
 
   const { data: sets } = await fetch(
     "https://api.pokemontcg.io/v2/sets" +

@@ -24,21 +24,6 @@ export function SearchFilters({
         className
       )}
     >
-      <SearchFilterItem title="Order by">
-        <Select
-          id="query.orderBy"
-          name="orderBy"
-          className="pt-1"
-          defaultValue={query.sortBy}
-          onChange={({ target: { value } }) => {
-            search({ sortBy: value });
-          }}
-        >
-          <option value="setNumber">Set number</option>
-          <option value="priceHighToLow">Price high to low</option>
-          <option value="priceLowToHigh">Price low to high</option>
-        </Select>
-      </SearchFilterItem>
       <SearchFilterItem title={"Format"}>
         <ul className="grid grid-cols-3 gap-2">
           <li>

@@ -44,6 +44,10 @@ export function useSearch() {
         newQuery.legal = "";
       }
 
+      if (query.set === currentQuery.set) {
+        newQuery.set = "";
+      }
+
       return "?" + qs.stringify(newQuery);
     },
     [currentQuery]

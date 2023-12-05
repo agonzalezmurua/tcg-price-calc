@@ -29,6 +29,7 @@ export function SearchFilters({
           id="query.orderBy"
           name="orderBy"
           className="pt-1"
+          defaultValue={query.sortBy}
           onChange={({ target: { value } }) => {
             search({ sortBy: value });
           }}

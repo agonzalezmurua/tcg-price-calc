@@ -1,4 +1,5 @@
 import { Label, Select, Sidebar } from "flowbite-react";
+import { PokemonTCGCard, WhereResultOf } from "pokemontcgsdk";
 import { stringify } from "qs";
 import { Cart } from "~/components/Cart";
 import { PaginationControls } from "~/components/PaginationControls";
@@ -42,19 +43,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           if (searchParams.sortBy === "setNumber") {
             orderBy.push("number");
           }
-          if (searchParams.sortBy === "priceHighToLow") {
-            orderBy.push("-tcgplayer.prices.normal.market");
-            orderBy.push("-tcgplayer.prices.reverseHoloFoil.market");
-            orderBy.push("-tcgplayer.prices.holofoil.market");
-          }
-
-          if (searchParams.sortBy === "priceLowToHigh") {
-            orderBy.push("tcgplayer.prices.normal.market");
-            orderBy.push("tcgplayer.prices.reverseHoloFoil.market");
-            orderBy.push("tcgplayer.prices.holofoil.market");
-          }
-
-          console.log(orderBy.join(","));
 
           return orderBy.join(",");
         },
@@ -70,7 +58,23 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         revalidate: 60 * 15,
       },
     }
-  ).then((r) => r.json());
+  )
+    .then((r) => r.json())
+    .then((result: WhereResultOf<PokemonTCGCard>) => {
+      const getHighestPriceOf = (card: PokemonTCGCard) => {
+        return Object.values(card.tcgplayer.prices).sort(
+          (a, b) => a.market - b.market
+        )[0].market;
+      };
+
+      if (searchParams.sortBy) {
+        result.data = result.data.toSorted(
+          (a, b) => -getHighestPriceOf(a) - -getHighestPriceOf(b)
+        );
+      }
+
+      return result;
+    });
 
   const { data: sets } = await fetch(
     "https://api.pokemontcg.io/v2/sets" +
@@ -97,8 +101,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       },
     }
   ).then((r) => r.json());
-
-  console.log(cards);
 
   return (
     <section className="relative space-y-4 max-w-[1920px] mx-auto">

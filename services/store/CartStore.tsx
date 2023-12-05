@@ -1,10 +1,10 @@
 "use client";
 
 import { makeAutoObservable } from "mobx";
-import { PokemonCard, PokemonCardVariant } from "pokemontcgsdk";
+import { PokemonTCGCard, PokemonCardVariant } from "pokemontcgsdk";
 
 type CartItem = {
-  card: PokemonCard;
+  card: PokemonTCGCard;
   amounts: Partial<Record<PokemonCardVariant, number>>;
 };
 
@@ -15,7 +15,7 @@ export class CartStore {
 
   public readonly items: CartItem[] = [];
 
-  add(card: PokemonCard, which: PokemonCardVariant) {
+  add(card: PokemonTCGCard, which: PokemonCardVariant) {
     const item = this.items.find(({ card: { id } }) => id === card.id);
 
     if (!item) {

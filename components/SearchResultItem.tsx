@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Button, Label, Sidebar, Tooltip } from "flowbite-react";
 import { observer } from "mobx-react";
 import Link from "next/link";
-import { PokemonCard, PokemonCardVariant } from "pokemontcgsdk";
+import { PokemonTCGCard, PokemonCardVariant } from "pokemontcgsdk";
 import { useContext } from "react";
 import { FiInfo, FiPlus } from "react-icons/fi";
 import { Card } from "~/components/Card";
@@ -12,7 +12,7 @@ import { CartContext } from "~/services/context/CartContext";
 import { useSearch } from "~/services/hooks/useSearch";
 
 export const SearchResultItem = observer(
-  ({ card, className }: { card: PokemonCard; className?: string }) => {
+  ({ card, className }: { card: PokemonTCGCard; className?: string }) => {
     const cart = useContext(CartContext);
     const { getUrl } = useSearch();
 

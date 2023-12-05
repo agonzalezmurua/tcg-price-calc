@@ -4,7 +4,7 @@ declare module "pokemontcgsdk" {
     "Legal" | "Banned" | undefined
   >;
 
-  export type PokemonCard = {
+  export type PokemonTCGCard = {
     id: string;
     name: string;
     supertype: string;
@@ -20,7 +20,7 @@ declare module "pokemontcgsdk" {
     attacks: Attack[];
     weaknesses: Array<{ type: Type; value: string }>;
     resistances: Array<{ type: Type; value: string }>;
-    retreatCost: stribg[];
+    retreatCost: string[];
     cnvertedRetreatCost: number;
     set: PokemonTCGSets;
     number: string;
@@ -114,14 +114,14 @@ declare module "pokemontcgsdk" {
   class PokemonTCGSDK {
     configure(options: { apiKey: string }): void;
     card: {
-      find(id: string): Promise<PokemonCard | undefined>;
-      where(query: Query): Promise<WhereResultOf<PokemonCard>>;
-      all(query: Query): Promise<PokemonCard[]>;
+      find(id: string): Promise<PokemonTCGCard | undefined>;
+      where(query: Query): Promise<WhereResultOf<PokemonTCGCard>>;
+      all(query: Query): Promise<PokemonTCGCard[]>;
     };
     set: {
       find(id: string): Promise<PokemonTCGSets | undefined>;
       where(query: Query): Promise<WhereResultOf<PokemonTCGSets>>;
-      all(query: Query): Promise<PokemonCard[]>;
+      all(query: Query): Promise<PokemonTCGCard[]>;
     };
   }
 

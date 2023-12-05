@@ -1,11 +1,11 @@
 "use client";
-import { PokemonCard } from "pokemontcgsdk";
+import { PokemonTCGCard } from "pokemontcgsdk";
 import { SearchResultItem } from "./SearchResultItem";
 import classNames from "classnames";
 
 type CardSearchProps = {
   className?: string;
-  cards: PokemonCard[];
+  cards: PokemonTCGCard[];
 };
 
 export function SearchResult({ cards, className }: CardSearchProps) {

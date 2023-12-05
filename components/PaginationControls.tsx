@@ -15,7 +15,7 @@ export function PaginationControls({
   totalPages,
   className,
 }: PaginationControlsProps) {
-  const { update } = useSearch();
+  const { search: update } = useSearch();
 
   return (
     <section className={classNames("flex flex-wrap justify-center", className)}>

@@ -3,33 +3,64 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import qs from "qs";
+import { useBoolean } from "react-use";
 
-type SearchProps = {
+export type SearchQueryType = {
   page: number;
-};
-
-type SearchQuery = {
-  page: number;
+  set: string;
   name: string;
+  legal: string;
+  sortBy: string;
 };
 
 export function useSearch() {
   const router = useRouter();
+  const [isLoading, setLoading] = useBoolean(true);
   const searchParams = useSearchParams();
-  const searchQuery = useMemo(() => {
+  const currentQuery = useMemo<SearchQueryType>(() => {
     const page = searchParams.get("page") ?? "1";
 
     return {
       name: searchParams.get("name") ?? "",
       page: Number(page),
+      set: searchParams.get("set") ?? "",
+      legal: searchParams.get("legal") ?? "",
+      sortBy: searchParams.get("sortBy") ?? "",
     };
   }, [searchParams]);
+  const getUrl = useCallback(
+    (query: Partial<SearchQueryType>): string => {
+      const newQuery = { ...currentQuery, ...query };
 
-  const update = useCallback(function (query: Partial<SearchQuery>) {
-    const newQuery = { ...searchQuery, ...query };
+      if (currentQuery.name !== newQuery.name) {
+        newQuery.page = 1;
+      }
 
-    router.push("?" + qs.stringify(newQuery));
-  }, []);
+      if (currentQuery.set !== newQuery.set) {
+        newQuery.page = 1;
+      }
 
-  return { update, query: searchQuery };
+      if (query.legal === currentQuery.legal) {
+        newQuery.legal = "";
+      }
+
+      return "?" + qs.stringify(newQuery);
+    },
+    [currentQuery]
+  );
+
+  const search = useCallback(
+    function (query: Partial<SearchQueryType>) {
+      setLoading(true);
+
+      const url = getUrl(query);
+
+      router.push(url);
+
+      setLoading(false);
+    },
+    [currentQuery]
+  );
+
+  return { search, query: currentQuery, getUrl, isLoading };
 }

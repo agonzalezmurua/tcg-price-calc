@@ -22,7 +22,7 @@ declare module "pokemontcgsdk" {
     resistances: Array<{ type: Type; value: string }>;
     retreatCost: stribg[];
     cnvertedRetreatCost: number;
-    set: Set;
+    set: PokemonTCGSets;
     number: string;
     artist: string;
     rarity: string;
@@ -88,7 +88,7 @@ declare module "pokemontcgsdk" {
     | "Dragon"
     | "Fairy";
 
-  type Set = {
+  export type PokemonTCGSets = {
     id: string;
     name: string;
     series: string;
@@ -119,8 +119,8 @@ declare module "pokemontcgsdk" {
       all(query: Query): Promise<PokemonCard[]>;
     };
     set: {
-      find(id: string): Promise<Set | undefined>;
-      where(query: Query): Promise<WhereResultOf<Set>>;
+      find(id: string): Promise<PokemonTCGSets | undefined>;
+      where(query: Query): Promise<WhereResultOf<PokemonTCGSets>>;
       all(query: Query): Promise<PokemonCard[]>;
     };
   }
